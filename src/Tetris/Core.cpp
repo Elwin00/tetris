@@ -206,7 +206,7 @@ void Core::moveLeft() {
         }
 
         auto colToLeft = state.current.x + firstBlockFromLeft - 1;
-        if (state.grid.get(colToLeft, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
+        if (colToLeft >= 0 && state.grid.get(colToLeft, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
             obstacleLeft = true;
             break;
         }
@@ -229,7 +229,7 @@ void Core::moveRight() {
         }
 
         auto colToRight = state.current.x + (blocks.width - 1) - firstBlockFromRight + 1;
-        if (state.grid.get(colToRight, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
+        if (colToRight < CONSTANTS::GRID_COLUMNS && state.grid.get(colToRight, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
             obstacleRight = true;
             break;
         }
