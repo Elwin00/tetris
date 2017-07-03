@@ -120,6 +120,9 @@ void Core::gameLoop() {
             if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D)) {
                 moveRight();
             }
+            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)) {
+                fallCurrentShape();
+            }
         }
 
         if (tick) {
