@@ -24,10 +24,10 @@ void Core::initGridState() {
     //state.grid = std::vector<std::vector<Tile>>(CONSTANTS::GRID_COLUMNS, std::vector<Tile>(CONSTANTS::GRID_ROWS));
 
     // few landed blocks
-    //state.grid.set(3, 19, 4);
-    //state.grid.set(4, 19, 4);
-    //state.grid.set(5, 19, 4);
-    //state.grid.set(6, 19, 4);
+    state.grid.set(3, 19, 4);
+    state.grid.set(4, 19, 4);
+    state.grid.set(5, 19, 4);
+    state.grid.set(6, 19, 4);
 
     state.grid.set(7, 19, 3);
     state.grid.set(8, 19, 3);
@@ -43,6 +43,14 @@ void Core::initGridState() {
     state.grid.set(2, 18, 0);
     state.grid.set(1, 18, 0);
     state.grid.set(1, 17, 0);
+
+    // for testing left/right collisions
+    state.grid.set(2, 4, 5);
+    state.grid.set(2, 5, 5);
+    state.grid.set(2, 6, 5);
+    state.grid.set(6, 4, 5);
+    state.grid.set(6, 5, 5);
+    state.grid.set(6, 6, 5);
 }
 
 void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprites) {
@@ -184,13 +192,48 @@ void Core::fallCurrentShape() {
 }
 
 void Core::moveLeft() {
-    if (state.current.x > 0) {
+    bool obstacleLeft = false;
+    auto blocks = state.current.rotations[state.current.rotationIdx];
+    for (auto row = 0; row < blocks.height; ++row) {
+        auto firstBlockFromLeft = 0;
+        for (auto col = 0; col < blocks.width; ++col) {
+            if (blocks.get(col, row) == CONSTANTS::EMPTY_BLOCK) continue;
+            firstBlockFromLeft = col;
+            break;
+        }
+
+        auto colToLeft = state.current.x + firstBlockFromLeft - 1;
+        if (state.grid.get(colToLeft, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
+            obstacleLeft = true;
+            break;
+        }
+    }
+
+    if (state.current.x > 0 && !obstacleLeft) {
         --state.current.x;
     }
 }
 
 void Core::moveRight() {
-    if (state.current.x < CONSTANTS::GRID_COLUMNS - 1) {
+    bool obstacleRight = false;
+    auto blocks = state.current.rotations[state.current.rotationIdx];
+    for (auto row = 0; row < blocks.height; ++row) {
+        int firstBlockFromRight = 0;
+        for (auto col = 0; col < blocks.width - 1; ++col) {
+            if (blocks.get(col, row) == CONSTANTS::EMPTY_BLOCK) continue;
+            firstBlockFromRight = col;
+            break;
+        }
+
+        auto colToRight = state.current.x + (blocks.width - 1) - firstBlockFromRight + 1;
+        if (state.grid.get(colToRight, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
+            obstacleRight = true;
+            break;
+        }
+    }
+
+    auto right = state.current.x + blocks.width - 1;
+    if (right < CONSTANTS::GRID_COLUMNS - 1 && !obstacleRight) {
         ++state.current.x;
     }
 }
