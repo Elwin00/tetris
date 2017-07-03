@@ -105,10 +105,16 @@ void Core::gameLoop() {
                 event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Q) {
                 phase = GamePhase::Exiting;
             }
+
+            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A)) {
+                moveLeft();
+            }
+            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D)) {
+                moveRight();
+            }
         }
 
         if (tick) {
-            // moveFallingTiles();
             fallCurrentShape();
         }
 
@@ -144,9 +150,6 @@ void Core::drawPitch(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sp
     }
 }
 
-// obsolete, this moves blocks in the grid, but they should only be moved when a row is completed
-void Core::moveFallingTiles() {
-}
 void Core::fallCurrentShape() {
     // gist: for every column check its lowest block. If any of the lowest blocks is on last row or there
     // is another block below, current shape lands (shape's blocks will be copied to state.grid) and next
@@ -179,6 +182,20 @@ void Core::fallCurrentShape() {
 
     state.current.y++;
 }
+
+void Core::moveLeft() {
+    if (state.current.x > 0) {
+        --state.current.x;
+    }
+}
+
+void Core::moveRight() {
+    if (state.current.x < CONSTANTS::GRID_COLUMNS - 1) {
+        ++state.current.x;
+    }
+}
+
+
 
 sf::RenderWindow Core::mainWindow;
 GameState Core::state;

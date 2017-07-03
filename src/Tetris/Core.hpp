@@ -28,4 +28,6 @@ private:
     static void drawPitch(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache);
 	static void moveFallingTiles();
 	static void fallCurrentShape();
+	static void moveLeft();
+	static void moveRight();
 };
