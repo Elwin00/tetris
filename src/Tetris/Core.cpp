@@ -186,7 +186,7 @@ void Core::fallCurrentShape() {
             }
 
             state.current = state.next;
-            state.next = Shape{Array2D<blockId>{{ {5,5},{5,5} }}, 4,0};
+            state.next = Piece{Array2D<blockId>{{ {5,5},{5,5} }}, 4,0};
             return;
         }
     }

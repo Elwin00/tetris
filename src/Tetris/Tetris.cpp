@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Core.hpp"
-#include "Shape.hpp"
+#include "Piece.hpp"
 
 int main()
 {
@@ -41,7 +41,7 @@ int main()
     }};
     arrImplicit.print();
 
-    Shape s{arr2D};
+    Piece s{arr2D};
     s.print();
     */
 

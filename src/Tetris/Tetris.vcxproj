@@ -159,7 +159,7 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Shape.hpp" />
+    <ClInclude Include="Piece.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />

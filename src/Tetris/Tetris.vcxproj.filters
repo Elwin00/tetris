@@ -36,7 +36,7 @@
     <ClInclude Include="Array2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shape.hpp">
+    <ClInclude Include="Piece.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
