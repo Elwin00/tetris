@@ -18,6 +18,9 @@ void Core::init() {
 
 // possibly obsolete function
 void Core::initGridState() {
+    state.current = Piece{ShapeProvider::getRandom(), 4, 0};
+    state.next = Piece{ShapeProvider::getRandom(), 4, 0};
+
     unsigned int number_of_rows = CONSTANTS::GRID_ROWS;
     unsigned int number_of_columns = CONSTANTS::GRID_COLUMNS;
 
@@ -57,7 +60,6 @@ void Core::initGridState() {
 void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprites) {
     mainWindow.clear(sf::Color(CONSTANTS::GFX::BACKGROUND_COLOUR));
 
-    //drawPitch(spritesheet);
     for (auto& sprite: sprites) {
         mainWindow.draw(sprite);
     }
@@ -123,6 +125,12 @@ void Core::gameLoop() {
             }
             if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)) {
                 fallCurrentShape();
+            }
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Z) {
+                rotateLeft();
+            }
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::X) {
+                rotateRight();
             }
         }
 
@@ -242,6 +250,19 @@ void Core::moveRight() {
     }
 }
 
+void Core::rotateLeft() {
+    --state.current.rotationIdx;
+    if (state.current.rotationIdx < 0) {
+        state.current.rotationIdx = state.current.rotations.size() - 1;
+    }
+}
+
+void Core::rotateRight() {
+    ++state.current.rotationIdx;
+    if (state.current.rotationIdx == state.current.rotations.size()) {
+        state.current.rotationIdx = 0;
+    }
+}
 
 
 sf::RenderWindow Core::mainWindow;

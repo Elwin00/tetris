@@ -29,4 +29,6 @@ private:
 	static void fallCurrentShape();
 	static void moveLeft();
 	static void moveRight();
+	static void rotateLeft();
+	static void rotateRight();
 };
