@@ -36,7 +36,13 @@
     <ClInclude Include="Array2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ShapeProvider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Piece.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomProvider.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -48,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeProvider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -157,12 +157,15 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
     <ClInclude Include="Constants.hpp" />
     <ClInclude Include="Core.hpp" />
     <ClInclude Include="GameState.hpp" />
+    <ClInclude Include="RandomProvider.hpp" />
+    <ClInclude Include="ShapeProvider.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Piece.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="ShapeProvider.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

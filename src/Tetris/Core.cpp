@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Core.hpp"
 #include "Constants.hpp"
+#include "ShapeProvider.hpp"
 
 typedef unsigned long long gameTime;
 
@@ -45,12 +46,12 @@ void Core::initGridState() {
     state.grid.set(1, 17, 0);
 
     // for testing left/right collisions
-    state.grid.set(2, 4, 5);
-    state.grid.set(2, 5, 5);
-    state.grid.set(2, 6, 5);
-    state.grid.set(6, 4, 5);
-    state.grid.set(6, 5, 5);
-    state.grid.set(6, 6, 5);
+    //state.grid.set(2, 4, 5);
+    //state.grid.set(2, 5, 5);
+    //state.grid.set(2, 6, 5);
+    //state.grid.set(6, 4, 5);
+    //state.grid.set(6, 5, 5);
+    //state.grid.set(6, 6, 5);
 }
 
 void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprites) {
@@ -186,7 +187,7 @@ void Core::fallCurrentShape() {
             }
 
             state.current = state.next;
-            state.next = Piece{Array2D<blockId>{{ {5,5},{5,5} }}, 4,0};
+            state.next = Piece{ShapeProvider::getRandom(), 4, 0};
             return;
         }
     }
