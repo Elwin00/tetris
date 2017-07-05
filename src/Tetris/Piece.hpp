@@ -17,4 +17,8 @@ public:
 	explicit Piece(std::vector<Array2D<blockId>>& initial) : rotations(initial) {}
 	explicit Piece(std::vector<Array2D<blockId>>& initial, int x, int y) : x{x}, y{y}, rotations(initial) {}
 	explicit Piece(std::vector<Array2D<blockId>>&& initial, int x, int y) : x{x}, y{y}, rotations(initial) {}
+
+	const Array2D<blockId>& getCurrentRotation() const;
+	void rotateLeft();
+	void rotateRight();
 };

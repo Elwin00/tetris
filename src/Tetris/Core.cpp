@@ -127,10 +127,10 @@ void Core::gameLoop() {
                 fallCurrentShape();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Z) {
-                rotateLeft();
+                state.current.rotateLeft();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::X) {
-                rotateRight();
+                state.current.rotateRight();
             }
         }
 
@@ -174,7 +174,7 @@ void Core::fallCurrentShape() {
     // gist: for every column check its lowest block. If any of the lowest blocks is on last row or there
     // is another block below, current shape lands (shape's blocks will be copied to state.grid) and next
     // shape will become current shape.
-    auto blocks = state.current.rotations[state.current.rotationIdx];
+    auto blocks = state.current.getCurrentRotation();
     for (auto col = 0; col < blocks.width; ++col) {
         int lastBlockRow;
         for (auto row = blocks.height - 1; row >= 0; --row) {
@@ -247,20 +247,6 @@ void Core::moveRight() {
     auto right = state.current.x + blocks.width - 1;
     if (right < CONSTANTS::GRID_COLUMNS - 1 && !obstacleRight) {
         ++state.current.x;
-    }
-}
-
-void Core::rotateLeft() {
-    --state.current.rotationIdx;
-    if (state.current.rotationIdx < 0) {
-        state.current.rotationIdx = state.current.rotations.size() - 1;
-    }
-}
-
-void Core::rotateRight() {
-    ++state.current.rotationIdx;
-    if (state.current.rotationIdx == state.current.rotations.size()) {
-        state.current.rotationIdx = 0;
     }
 }
 
