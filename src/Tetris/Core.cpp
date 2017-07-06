@@ -69,7 +69,7 @@ void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprit
         }
     }
 
-    auto blocks = state.current.rotations[state.current.rotationIdx];
+    auto& blocks = state.current.getCurrentRotation();
     for (int row = 0; row < blocks.height; ++row) {
         for (int col = 0; col < blocks.width; ++col) {
             blockId block = blocks.get(col, row);
@@ -167,7 +167,7 @@ void Core::fallCurrentPiece() {
     // gist: for every column check its lowest block. If any of the lowest blocks is on last row or there
     // is another block below, current shape lands (shape's blocks will be copied to state.grid) and next
     // shape will become current shape.
-    auto blocks = state.current.getCurrentRotation();
+    auto& blocks = state.current.getCurrentRotation();
     for (auto col = 0; col < blocks.width; ++col) {
         int lastBlockRow;
         for (auto row = blocks.height - 1; row >= 0; --row) {
@@ -227,7 +227,7 @@ void Core::clearLines() {
 
 void Core::moveLeft() {
     bool obstacleLeft = false;
-    auto blocks = state.current.rotations[state.current.rotationIdx];
+    auto& blocks = state.current.getCurrentRotation();
     for (auto row = 0; row < blocks.height; ++row) {
         auto firstBlockFromLeft = 0;
         for (auto col = 0; col < blocks.width; ++col) {
@@ -250,7 +250,7 @@ void Core::moveLeft() {
 
 void Core::moveRight() {
     bool obstacleRight = false;
-    auto blocks = state.current.rotations[state.current.rotationIdx];
+    auto& blocks = state.current.getCurrentRotation();
     for (auto row = 0; row < blocks.height; ++row) {
         int firstBlockFromRight = 0;
         for (auto col = 0; col < blocks.width - 1; ++col) {
