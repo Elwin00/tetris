@@ -25,8 +25,8 @@ private:
     } phase;
 
     // helpers / temporary
-    static void drawPitch(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache);
-	static void fallCurrentShape();
+    static void prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache);
+	static void fallCurrentPiece();
 	static void moveLeft();
 	static void moveRight();
 };

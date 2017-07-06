@@ -100,7 +100,7 @@ void Core::gameLoop() {
     edgeTexture.loadFromFile(CONSTANTS::GFX::SPRITESHEET_EDGE_FILE);
 
     std::vector<sf::Sprite> staticSprites;
-    drawPitch(edgeTexture, staticSprites);
+    prepareGridEdges(edgeTexture, staticSprites);
 
     while (phase != GamePhase::Exiting) {
         gameTime elapsed = clock.getElapsedTime().asMilliseconds();
@@ -124,7 +124,7 @@ void Core::gameLoop() {
                 moveRight();
             }
             if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)) {
-                fallCurrentShape();
+                fallCurrentPiece();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Z) {
                 state.current.rotateLeft();
@@ -135,7 +135,7 @@ void Core::gameLoop() {
         }
 
         if (tick) {
-            fallCurrentShape();
+            fallCurrentPiece();
         }
 
         render(spritesheet, staticSprites);
@@ -144,9 +144,7 @@ void Core::gameLoop() {
     }
 }
 
-// rename to something else, this func uses 'spritesheet' to create/setup sprites, position them and then save them into 'spriteCache'
-// it draws the edges around the grid
-void Core::drawPitch(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache) {
+void Core::prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache) {
     int size = CONSTANTS::GFX::SPRITE_SIZE;
     sf::IntRect rect(0, 0, 24, 24);
 
@@ -170,7 +168,7 @@ void Core::drawPitch(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sp
     }
 }
 
-void Core::fallCurrentShape() {
+void Core::fallCurrentPiece() {
     // gist: for every column check its lowest block. If any of the lowest blocks is on last row or there
     // is another block below, current shape lands (shape's blocks will be copied to state.grid) and next
     // shape will become current shape.
