@@ -127,10 +127,10 @@ void Core::gameLoop() {
                 fallCurrentPiece();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Z) {
-                state.current.rotateLeft();
+                rotateLeft();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::X) {
-                state.current.rotateRight();
+                rotateRight();
             }
         }
 
@@ -245,6 +245,28 @@ void Core::moveRight() {
     auto right = state.current.x + blocks.width - 1;
     if (right < CONSTANTS::GRID_COLUMNS - 1 && !obstacleRight) {
         ++state.current.x;
+    }
+}
+
+void Core::rotateLeft() {
+    state.current.rotateLeft();
+
+    auto& rotation = state.current.getCurrentRotation();
+
+    auto difX = CONSTANTS::GRID_COLUMNS - 1 - (state.current.x + static_cast<int>(rotation.width) - 1);
+    if (difX < 0) {
+        state.current.x += difX;
+    }
+}
+
+void Core::rotateRight() {
+    state.current.rotateRight();
+
+    auto& rotation = state.current.getCurrentRotation();
+
+    auto difX = CONSTANTS::GRID_COLUMNS - 1 - (state.current.x + static_cast<int>(rotation.width) - 1);
+    if (difX < 0) {
+        state.current.x += difX;
     }
 }
 
