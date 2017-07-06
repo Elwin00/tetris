@@ -127,6 +127,9 @@ void Core::gameLoop() {
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::X) {
                 rotateRight();
             }
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space) {
+                hardDrop();
+            }
         }
 
         if (tick) {
@@ -161,6 +164,18 @@ void Core::prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Spri
         right.setPosition((CONSTANTS::GRID_COLUMNS + 1) * size, i * size);
         spriteCache.push_back(right);
     }
+}
+
+bool Core::hasCollision() {
+    auto& piece = state.current.getCurrentRotation();
+    for (auto col = 0; col < piece.width; ++col) {
+        for (auto row = 0; row < piece.height; ++row) {
+            if (piece.get(col, row) != CONSTANTS::EMPTY_BLOCK && state.grid.get(state.current.x + col, state.current.y + row) != CONSTANTS::EMPTY_BLOCK) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void Core::fallCurrentPiece() {
@@ -291,6 +306,17 @@ void Core::rotateRight() {
     auto difX = CONSTANTS::GRID_COLUMNS - 1 - (state.current.x + static_cast<int>(rotation.width) - 1);
     if (difX < 0) {
         state.current.x += difX;
+    }
+}
+
+void Core::hardDrop() {
+    auto& piece = state.current.getCurrentRotation();
+    while(state.current.y + piece.height - 1 < CONSTANTS::GRID_ROWS - 1) {
+        ++state.current.y;
+        if (hasCollision()) {
+            --state.current.y;
+            break;
+        }
     }
 }
 
