@@ -59,7 +59,7 @@ Shape ShapeProvider::shapeL {
             {2, -1, -1}
         }},
     Array2D<blockId>{{
-            {2,  2},
+            { 2, 2},
             {-1, 2},
             {-1, 2}
         }},

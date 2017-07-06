@@ -28,11 +28,6 @@ void Core::initGridState() {
     //state.grid = std::vector<std::vector<Tile>>(CONSTANTS::GRID_COLUMNS, std::vector<Tile>(CONSTANTS::GRID_ROWS));
 
     // few landed blocks
-    state.grid.set(3, 19, 4);
-    state.grid.set(4, 19, 4);
-    state.grid.set(5, 19, 4);
-    state.grid.set(6, 19, 4);
-
     state.grid.set(7, 19, 3);
     state.grid.set(8, 19, 3);
     state.grid.set(9, 19, 3);
@@ -90,7 +85,7 @@ void Core::gameLoop() {
 
     sf::Clock clock;
     const gameTime tickTime = 500; // milliseconds
-    gameTime lastTickTime = 0;
+    gameTime lastTickTime{0};
 
     std::map<std::string, sf::Sprite> sprites; // used?
     sf::Texture spritesheet;
@@ -192,6 +187,8 @@ void Core::fallCurrentPiece() {
                 }
             }
 
+            clearLines();
+
             state.current = state.next;
             state.next = Piece{ShapeProvider::getRandom(), 4, 0};
             return;
@@ -199,6 +196,33 @@ void Core::fallCurrentPiece() {
     }
 
     state.current.y++;
+}
+
+void Core::clearLines() {
+    int row{CONSTANTS::GRID_ROWS - 1};
+    while (row >= 0) {
+        bool completeRow = true;
+        for (auto col = 0; col < CONSTANTS::GRID_COLUMNS - 1; ++col) {
+            if (state.grid.get(col, row) == CONSTANTS::EMPTY_BLOCK) {
+                completeRow = false;
+                break;
+            }
+        }
+
+        if (completeRow) {
+            for (auto r = row - 1; r >= 0; --r) {
+                for (auto col = 0; col < CONSTANTS::GRID_COLUMNS - 1; ++col) {
+                    state.grid.set(col, r + 1, state.grid.get(col, r));
+                    if (r == 0) {
+                        state.grid.set(col, 0, CONSTANTS::EMPTY_BLOCK);
+                    }
+                }
+            }
+        }
+        else {
+            --row;
+        }
+    }
 }
 
 void Core::moveLeft() {

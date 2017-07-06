@@ -26,9 +26,10 @@ private:
 
     // helpers / temporary
     static void prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache);
-	static void fallCurrentPiece();
-	static void moveLeft();
-	static void moveRight();
+    static void fallCurrentPiece();
+    static void clearLines();
+    static void moveLeft();
+    static void moveRight();
     static void rotateLeft();
     static void rotateRight();
 };
