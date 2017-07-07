@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 
 namespace CONSTANTS {
     const static int SCREEN_WIDTH = 1024;
@@ -17,4 +17,6 @@ namespace CONSTANTS {
         const static int SPRITE_SIZE = 24; // px
         const static int BACKGROUND_COLOUR = 0x555555ff; // 85,85,85
     }
+
+    const static std::string FONT_FILE = "assets/font/PermanentMarker.ttf";
 }

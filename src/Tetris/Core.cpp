@@ -2,6 +2,8 @@
 #include "Core.hpp"
 #include "Constants.hpp"
 #include "ShapeProvider.hpp"
+#include "util.hpp"
+#include <memory>
 
 typedef unsigned long long gameTime;
 
@@ -63,7 +65,7 @@ void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprit
     for (int row = 0; row < CONSTANTS::GRID_ROWS; ++row) {
         for (int col = 0; col < CONSTANTS::GRID_COLUMNS; ++col) {
             if (state.grid.get(col, row) == CONSTANTS::EMPTY_BLOCK) continue;
-            sf::Sprite sprite(spritesheet, sf::IntRect(state.grid.get(col, row) * size, 0, size, size)); // TODO getting sprite for block with idx function
+            sf::Sprite sprite(spritesheet, sf::IntRect(state.grid.get(col, row) * size, 0, size, size));
             sprite.setPosition((1 + col) * size, (1 + row) * size);
             mainWindow.draw(sprite);
         }
@@ -74,7 +76,7 @@ void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprit
         for (int col = 0; col < blocks.width; ++col) {
             blockId block = blocks.get(col, row);
             if (block == CONSTANTS::EMPTY_BLOCK) continue;
-            sf::Sprite sprite(spritesheet, sf::IntRect(block * size, 0, size, size)); // TODO reuse created sprites, also in previous loop
+            sf::Sprite sprite(spritesheet, sf::IntRect(block * size, 0, size, size));
             sprite.setPosition((1 + state.current.x + col) * size, (1 + state.current.y + row) * size);
             mainWindow.draw(sprite);
         }
@@ -86,6 +88,11 @@ void Core::gameLoop() {
     sf::Clock clock;
     const gameTime tickTime = 500; // milliseconds
     gameTime lastTickTime{0};
+
+    auto font = std::make_shared<sf::Font>();
+    font->loadFromFile(CONSTANTS::FONT_FILE);
+    sf::Text endGameText;
+    configureEndGameText(endGameText, font);
 
     std::map<std::string, sf::Sprite> sprites; // used?
     sf::Texture spritesheet;
@@ -111,6 +118,7 @@ void Core::gameLoop() {
                 event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Q) {
                 phase = GamePhase::Exiting;
             }
+            if (phase == GamePhase::Ended) continue;
 
             if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A)) {
                 moveLeft();
@@ -132,11 +140,15 @@ void Core::gameLoop() {
             }
         }
 
-        if (tick) {
+        if (tick && phase != GamePhase::Ended) {
             fallCurrentPiece();
         }
 
         render(spritesheet, staticSprites);
+
+        if (phase == GamePhase::Ended) {
+            mainWindow.draw(endGameText);
+        }
 
         mainWindow.display();
     }
@@ -206,6 +218,11 @@ void Core::fallCurrentPiece() {
 
             state.current = state.next;
             state.next = Piece{ShapeProvider::getRandom(), 4, 0};
+
+            if (hasCollision()) {
+                phase = GamePhase::Ended;
+            }
+
             return;
         }
     }

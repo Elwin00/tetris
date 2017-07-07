@@ -158,10 +158,12 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
     <ClInclude Include="Core.hpp" />
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="RandomProvider.hpp" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ShapeProvider.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Piece.hpp" />
+    <ClInclude Include="util.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
@@ -174,10 +176,17 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tetris.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\blocks.png" />
     <Image Include="assets\edge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Tetris.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\font\PermanentMarker.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

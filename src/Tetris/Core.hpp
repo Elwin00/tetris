@@ -21,6 +21,7 @@ private:
         Loading,
         MainMenu,
         Playing,
+        Ended,
         Exiting
     } phase;
 
