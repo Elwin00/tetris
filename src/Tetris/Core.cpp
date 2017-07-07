@@ -61,7 +61,7 @@ void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprit
         mainWindow.draw(sprite);
     }
 
-    int size = CONSTANTS::GFX::SPRITE_SIZE;
+    int size = CONSTANTS::GFX::BLOCK_SIZE;
     for (int row = 0; row < CONSTANTS::GRID_ROWS; ++row) {
         for (int col = 0; col < CONSTANTS::GRID_COLUMNS; ++col) {
             if (state.grid.get(col, row) == CONSTANTS::EMPTY_BLOCK) continue;
@@ -155,7 +155,7 @@ void Core::gameLoop() {
 }
 
 void Core::prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache) {
-    int size = CONSTANTS::GFX::SPRITE_SIZE;
+    int size = CONSTANTS::GFX::BLOCK_SIZE;
     sf::IntRect rect(0, 0, 24, 24);
 
     for (int i = 0; i < CONSTANTS::GRID_COLUMNS + 2; i++) {

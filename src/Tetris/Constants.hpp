@@ -14,7 +14,7 @@ namespace CONSTANTS {
     namespace GFX {
         const static std::string SPRITESHEET_BLOCKS_FILE = "assets/blocks.png";
         const static std::string SPRITESHEET_EDGE_FILE = "assets/edge.png";
-        const static int SPRITE_SIZE = 24; // px
+        const static int BLOCK_SIZE = 24; // px
         const static int BACKGROUND_COLOUR = 0x555555ff; // 85,85,85
     }
 

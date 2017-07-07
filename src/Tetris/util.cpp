@@ -12,7 +12,7 @@ void configureEndGameText(sf::Text& text, const std::shared_ptr<sf::Font> font) 
     text.setString("GAME OVER");
 
     sf::FloatRect bounds = text.getGlobalBounds();
-    float x = (CONSTANTS::GRID_COLUMNS + 2) * CONSTANTS::GFX::SPRITE_SIZE / 2 - bounds.width / 2;
-    float y = (CONSTANTS::GRID_ROWS + 2) * CONSTANTS::GFX::SPRITE_SIZE / 2 - bounds.height / 2;
+    float x = (CONSTANTS::GRID_COLUMNS + 2) * CONSTANTS::GFX::BLOCK_SIZE / 2 - bounds.width / 2;
+    float y = (CONSTANTS::GRID_ROWS + 2) * CONSTANTS::GFX::BLOCK_SIZE / 2 - bounds.height / 2;
     text.setPosition(x, y);
 }
