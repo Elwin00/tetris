@@ -54,10 +54,10 @@ void Core::initGridState() {
     //state.grid.set(6, 6, 5);
 }
 
-void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprites) {
+void Core::render(const sf::Texture& spritesheet, const std::vector<sf::Sprite>& staticSprites) {
     mainWindow.clear(sf::Color(CONSTANTS::GFX::BACKGROUND_COLOUR));
 
-    for (auto& sprite: sprites) {
+    for (auto& sprite: staticSprites) {
         mainWindow.draw(sprite);
     }
 
@@ -79,6 +79,20 @@ void Core::render(const sf::Texture& spritesheet, std::vector<sf::Sprite>& sprit
             sf::Sprite sprite(spritesheet, sf::IntRect(block * size, 0, size, size));
             sprite.setPosition((1 + state.current.x + col) * size, (1 + state.current.y + row) * size);
             mainWindow.draw(sprite);
+        }
+    }
+
+    auto nextShape = state.next.getCurrentRotation();
+    auto offsetX = CONSTANTS::GRID_COLUMNS + 4 + (CONSTANTS::NEXT_COLUMNS / 2 - nextShape.width / 2);
+    auto offsetY = 1 + (CONSTANTS::NEXT_ROWS / 2 - nextShape.height / 2);
+    for (auto col = 0; col < nextShape.width; ++col) {
+        for (auto row = 0; row < nextShape.height; ++row) {
+            auto block = nextShape.get(col, row);
+            if (block != CONSTANTS::EMPTY_BLOCK) {
+                sf::Sprite sprite(spritesheet, sf::IntRect(block * size, 0, size, size));
+                sprite.setPosition((offsetX + col) * size, (offsetY + row) * size);
+                mainWindow.draw(sprite);
+            }
         }
     }
 }
