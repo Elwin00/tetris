@@ -158,7 +158,7 @@ void Core::prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Spri
     int size = CONSTANTS::GFX::BLOCK_SIZE;
     sf::IntRect rect(0, 0, 24, 24);
 
-    for (int i = 0; i < CONSTANTS::GRID_COLUMNS + 2; i++) {
+    for (int i = 0; i < CONSTANTS::GRID_COLUMNS + 2; ++i) {
         sf::Sprite upper(spritesheet, rect);
         upper.setPosition(size * i, 0);
         spriteCache.push_back(upper);
@@ -168,12 +168,33 @@ void Core::prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Spri
         spriteCache.push_back(lower);
     }
 
-    for (int i = 1; i <= CONSTANTS::GRID_ROWS; i++) {
+    for (int i = 1; i <= CONSTANTS::GRID_ROWS; ++i) {
         sf::Sprite left(spritesheet, rect);
         left.setPosition(0, i * size);
         spriteCache.push_back(left);
+
         sf::Sprite right(spritesheet, rect);
         right.setPosition((CONSTANTS::GRID_COLUMNS + 1) * size, i * size);
+        spriteCache.push_back(right);
+    }
+
+    for (int i = 0; i <= CONSTANTS::NEXT_COLUMNS + 1; ++i) {
+        sf::Sprite upper(spritesheet, rect);
+        upper.setPosition(size * (i + CONSTANTS::GRID_COLUMNS + 3), 0);
+        spriteCache.push_back(upper);
+
+        sf::Sprite lower(spritesheet, rect);
+        lower.setPosition(size * (i + CONSTANTS::GRID_COLUMNS + 3), (CONSTANTS::NEXT_ROWS + 1) * size);
+        spriteCache.push_back(lower);
+    }
+
+    for (int i = 1; i <= CONSTANTS::NEXT_ROWS; ++i) {
+        sf::Sprite left(spritesheet, rect);
+        left.setPosition((CONSTANTS::GRID_COLUMNS + 3) * size, i * size);
+        spriteCache.push_back(left);
+
+        sf::Sprite right(spritesheet, rect);
+        right.setPosition((CONSTANTS::GRID_COLUMNS + 4 + CONSTANTS::NEXT_COLUMNS) * size, i * size);
         spriteCache.push_back(right);
     }
 }

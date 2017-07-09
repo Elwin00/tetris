@@ -8,6 +8,8 @@ namespace CONSTANTS {
     const static int GRID_COLUMNS = 10;
     const static int GRID_ROWS = 20;
 	const static signed char EMPTY_BLOCK = -1;
+    const static int NEXT_COLUMNS = 4;
+    const static int NEXT_ROWS = 4;
 
     const static double M_PI = 3.14159265358979323846;
 
