@@ -133,13 +133,13 @@ void Core::gameLoop() {
             }
             if (phase == GamePhase::Ended) continue;
 
-            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A)) {
+            if (event.type == sf::Event::KeyPressed && (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A)) {
                 moveLeft();
             }
-            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D)) {
+            if (event.type == sf::Event::KeyPressed && (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D)) {
                 moveRight();
             }
-            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)) {
+            if (event.type == sf::Event::KeyPressed && (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)) {
                 fallCurrentPiece();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Z) {
