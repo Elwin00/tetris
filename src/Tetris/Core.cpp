@@ -106,7 +106,11 @@ void Core::gameLoop() {
     auto font = std::make_unique<sf::Font>();
     font->loadFromFile(CONSTANTS::FONT_FILE);
     sf::Text endGameText;
-    configureEndGameText(endGameText, font.get());
+    endGameText.setString("GAME OVER");
+    configureGameText(endGameText, font.get());
+    sf::Text pauseGameText;
+    pauseGameText.setString("PAUSED");
+    configureGameText(pauseGameText, font.get());
 
     sf::Texture spritesheet;
     spritesheet.loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
@@ -151,9 +155,14 @@ void Core::gameLoop() {
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space) {
                 hardDrop();
             }
+            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::P && event.key.control) {
+                state.isPaused = !state.isPaused;
+                clock.restart();
+                lastTickTime = 0;
+            }
         }
 
-        if (tick && phase != GamePhase::Ended) {
+        if (tick && phase != GamePhase::Ended && !state.isPaused) {
             fallCurrentPiece();
         }
 
@@ -161,6 +170,9 @@ void Core::gameLoop() {
 
         if (phase == GamePhase::Ended) {
             mainWindow.draw(endGameText);
+        }
+        if (state.isPaused) {
+            mainWindow.draw(pauseGameText);
         }
 
         mainWindow.display();

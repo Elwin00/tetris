@@ -1,14 +1,14 @@
 #include "stdafx.h"
+#include "util.hpp"
 #include "Constants.hpp"
 #include "SFML/Graphics.hpp"
 
-void configureEndGameText(sf::Text& text, const sf::Font* font) {
+void configureGameText(sf::Text& text, const sf::Font* font) {
     text.setFont(*font);
     text.setFillColor(sf::Color::Cyan);
     text.setOutlineColor(sf::Color::Black);
     text.setOutlineThickness(3);
     text.setCharacterSize(28);
-    text.setString("GAME OVER");
 
     sf::FloatRect bounds = text.getGlobalBounds();
     float x = (CONSTANTS::GRID_COLUMNS + 2) * CONSTANTS::GFX::BLOCK_SIZE / 2 - bounds.width / 2;

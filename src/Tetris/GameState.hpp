@@ -10,4 +10,6 @@ struct GameState{
 
 	Piece current{ShapeProvider::getRandom(), 4, 0};
 	Piece next{ShapeProvider::getRandom(), 4, 0};
+
+    bool isPaused{false};
 };
