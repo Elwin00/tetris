@@ -103,10 +103,10 @@ void Core::gameLoop() {
     const gameTime tickTime = 500; // milliseconds
     gameTime lastTickTime{0};
 
-    auto font = std::make_shared<sf::Font>();
+    auto font = std::make_unique<sf::Font>();
     font->loadFromFile(CONSTANTS::FONT_FILE);
     sf::Text endGameText;
-    configureEndGameText(endGameText, font);
+    configureEndGameText(endGameText, font.get());
 
     std::map<std::string, sf::Sprite> sprites; // used?
     sf::Texture spritesheet;

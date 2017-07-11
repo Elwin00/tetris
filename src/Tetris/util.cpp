@@ -1,9 +1,8 @@
 #include "stdafx.h"
 #include "Constants.hpp"
 #include "SFML/Graphics.hpp"
-#include <memory>
 
-void configureEndGameText(sf::Text& text, const std::shared_ptr<sf::Font> font) {
+void configureEndGameText(sf::Text& text, const sf::Font* font) {
     text.setFont(*font);
     text.setFillColor(sf::Color::Cyan);
     text.setOutlineColor(sf::Color::Black);
