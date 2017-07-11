@@ -149,7 +149,7 @@ void Core::gameLoop() {
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Z) {
                 rotateLeft();
             }
-            if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::X) {
+            if (event.type == sf::Event::KeyReleased && (event.key.code == sf::Keyboard::X || event.key.code == sf::Keyboard::Up)) {
                 rotateRight();
             }
             if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Space) {
