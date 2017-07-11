@@ -108,7 +108,6 @@ void Core::gameLoop() {
     sf::Text endGameText;
     configureEndGameText(endGameText, font.get());
 
-    std::map<std::string, sf::Sprite> sprites; // used?
     sf::Texture spritesheet;
     spritesheet.loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
 
