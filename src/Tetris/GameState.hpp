@@ -12,4 +12,7 @@ struct GameState{
 	Piece next{ShapeProvider::getRandom(), 4, 0};
 
     bool isPaused{false};
+
+    unsigned int score{0};
+    unsigned int completedRows{0};
 };

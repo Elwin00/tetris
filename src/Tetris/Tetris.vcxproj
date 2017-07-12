@@ -159,6 +159,7 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
     <ClInclude Include="GameState.hpp" />
     <ClInclude Include="RandomProvider.hpp" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ScoringCalculator.hpp" />
     <ClInclude Include="ShapeProvider.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -168,6 +169,7 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="ScoringCalculator.cpp" />
     <ClCompile Include="ShapeProvider.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

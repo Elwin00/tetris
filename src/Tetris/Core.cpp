@@ -2,6 +2,7 @@
 #include "Core.hpp"
 #include "Constants.hpp"
 #include "ShapeProvider.hpp"
+#include "ScoringCalculator.hpp"
 #include "util.hpp"
 #include <memory>
 
@@ -278,6 +279,7 @@ void Core::fallCurrentPiece() {
 
 void Core::clearLines() {
     int row{CONSTANTS::GRID_ROWS - 1};
+    int rowsCleared = 0;
     while (row >= 0) {
         bool completeRow = true;
         for (auto col = 0; col < CONSTANTS::GRID_COLUMNS - 1; ++col) {
@@ -296,10 +298,16 @@ void Core::clearLines() {
                     }
                 }
             }
+            ++rowsCleared;
         }
         else {
             --row;
         }
+    }
+
+    if (rowsCleared > 0) {
+        state.score += ScoringCalculator::getScoreForRows(rowsCleared);
+        state.completedRows += rowsCleared;
     }
 }
 
