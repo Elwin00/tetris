@@ -85,6 +85,9 @@
     <Image Include="assets\edge.png">
       <Filter>assets</Filter>
     </Image>
+    <Image Include="assets\shadow.png">
+      <Filter>assets</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetris.rc">

@@ -52,7 +52,7 @@ void Core::initGridState() {
     //state.grid.set(6, 6, 5);
 }
 
-void Core::render(const sf::Texture& spritesheet, const std::vector<sf::Sprite>& staticSprites, const sf::Font* font) {
+void Core::render(const sf::Texture& spritesheet, const sf::Texture* shadowTexture, const std::vector<sf::Sprite>& staticSprites, const sf::Font* font) {
     mainWindow.clear(sf::Color(CONSTANTS::GFX::BACKGROUND_COLOUR));
 
     for (auto& sprite: staticSprites) {
@@ -107,6 +107,22 @@ void Core::render(const sf::Texture& spritesheet, const std::vector<sf::Sprite>&
     rowsText.setPosition(left, top + rowsText.getGlobalBounds().height);
     mainWindow.draw(scoreText);
     mainWindow.draw(rowsText);
+
+    int originalY = state.current.y;
+    hardDrop();
+    if (originalY != state.current.y) {
+        auto piece = state.current.getCurrentRotation();
+        for (auto col = 0; col < piece.width; ++col) {
+            for (auto row = 0; row < piece.height; ++row) {
+                if (piece.get(col, row) != CONSTANTS::EMPTY_BLOCK) {
+                    sf::Sprite sprite(*shadowTexture);
+                    sprite.setPosition((1 + state.current.x + col) * size, (1 + state.current.y + row) * size);
+                    mainWindow.draw(sprite);
+                }
+            }
+        }
+        state.current.y = originalY;
+    }
 }
 
 void Core::gameLoop() {
@@ -131,6 +147,9 @@ void Core::gameLoop() {
 
     sf::Texture edgeTexture;
     edgeTexture.loadFromFile(CONSTANTS::GFX::SPRITESHEET_EDGE_FILE);
+
+    auto shadowTexture = std::make_unique<sf::Texture>();
+    shadowTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_SHADOW_FILE);
 
     std::vector<sf::Sprite> staticSprites;
     prepareGridEdges(edgeTexture, staticSprites);
@@ -180,7 +199,7 @@ void Core::gameLoop() {
             fallCurrentPiece();
         }
 
-        render(spritesheet, staticSprites, font.get());
+        render(spritesheet, shadowTexture.get(), staticSprites, font.get());
 
         if (phase == GamePhase::Ended) {
             mainWindow.draw(endGameText);

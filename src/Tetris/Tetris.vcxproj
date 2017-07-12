@@ -183,6 +183,7 @@ copy /Y $(ProjectDir)assets\ $(OutDir)assets\</Command>
   <ItemGroup>
     <Image Include="assets\blocks.png" />
     <Image Include="assets\edge.png" />
+    <Image Include="assets\shadow.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Tetris.rc" />
