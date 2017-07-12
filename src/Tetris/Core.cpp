@@ -52,7 +52,7 @@ void Core::initGridState() {
     //state.grid.set(6, 6, 5);
 }
 
-void Core::render(const sf::Texture& spritesheet, const sf::Texture* shadowTexture, const std::vector<sf::Sprite>& staticSprites, const sf::Font* font) {
+void Core::render(const sf::Texture* spritesheet, const sf::Texture* shadowTexture, const std::vector<sf::Sprite>& staticSprites, const sf::Font* font) {
     mainWindow.clear(sf::Color(CONSTANTS::GFX::BACKGROUND_COLOUR));
 
     for (auto& sprite: staticSprites) {
@@ -63,7 +63,7 @@ void Core::render(const sf::Texture& spritesheet, const sf::Texture* shadowTextu
     for (int row = 0; row < CONSTANTS::GRID_ROWS; ++row) {
         for (int col = 0; col < CONSTANTS::GRID_COLUMNS; ++col) {
             if (state.grid.get(col, row) == CONSTANTS::EMPTY_BLOCK) continue;
-            sf::Sprite sprite(spritesheet, sf::IntRect(state.grid.get(col, row) * size, 0, size, size));
+            sf::Sprite sprite(*spritesheet, sf::IntRect(state.grid.get(col, row) * size, 0, size, size));
             sprite.setPosition((1 + col) * size, (1 + row) * size);
             mainWindow.draw(sprite);
         }
@@ -74,7 +74,7 @@ void Core::render(const sf::Texture& spritesheet, const sf::Texture* shadowTextu
         for (int col = 0; col < blocks.width; ++col) {
             blockId block = blocks.get(col, row);
             if (block == CONSTANTS::EMPTY_BLOCK) continue;
-            sf::Sprite sprite(spritesheet, sf::IntRect(block * size, 0, size, size));
+            sf::Sprite sprite(*spritesheet, sf::IntRect(block * size, 0, size, size));
             sprite.setPosition((1 + state.current.x + col) * size, (1 + state.current.y + row) * size);
             mainWindow.draw(sprite);
         }
@@ -87,7 +87,7 @@ void Core::render(const sf::Texture& spritesheet, const sf::Texture* shadowTextu
         for (auto row = 0; row < nextShape.height; ++row) {
             auto block = nextShape.get(col, row);
             if (block != CONSTANTS::EMPTY_BLOCK) {
-                sf::Sprite sprite(spritesheet, sf::IntRect(block * size, 0, size, size));
+                sf::Sprite sprite(*spritesheet, sf::IntRect(block * size, 0, size, size));
                 sprite.setPosition((offsetX + col) * size, (offsetY + row) * size);
                 mainWindow.draw(sprite);
             }
@@ -142,17 +142,17 @@ void Core::gameLoop() {
     setGameTextPositionToGridCentre(endGameText);
     setGameTextPositionToGridCentre(pauseGameText);
 
-    sf::Texture spritesheet;
-    spritesheet.loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
+    auto spritesheet = std::make_unique<sf::Texture>();
+    spritesheet->loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
 
-    sf::Texture edgeTexture;
-    edgeTexture.loadFromFile(CONSTANTS::GFX::SPRITESHEET_EDGE_FILE);
+    auto edgeTexture = std::make_unique<sf::Texture>();
+    edgeTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_EDGE_FILE);
 
     auto shadowTexture = std::make_unique<sf::Texture>();
     shadowTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_SHADOW_FILE);
 
     std::vector<sf::Sprite> staticSprites;
-    prepareGridEdges(edgeTexture, staticSprites);
+    prepareGridEdges(edgeTexture.get(), staticSprites);
 
     while (phase != GamePhase::Exiting) {
         gameTime elapsed = clock.getElapsedTime().asMilliseconds();
@@ -199,7 +199,7 @@ void Core::gameLoop() {
             fallCurrentPiece();
         }
 
-        render(spritesheet, shadowTexture.get(), staticSprites, font.get());
+        render(spritesheet.get(), shadowTexture.get(), staticSprites, font.get());
 
         if (phase == GamePhase::Ended) {
             mainWindow.draw(endGameText);
@@ -212,46 +212,46 @@ void Core::gameLoop() {
     }
 }
 
-void Core::prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache) {
+void Core::prepareGridEdges(const sf::Texture* spritesheet, std::vector<sf::Sprite>& spriteCache) {
     int size = CONSTANTS::GFX::BLOCK_SIZE;
     sf::IntRect rect(0, 0, 24, 24);
 
     for (int i = 0; i < CONSTANTS::GRID_COLUMNS + 2; ++i) {
-        sf::Sprite upper(spritesheet, rect);
+        sf::Sprite upper(*spritesheet, rect);
         upper.setPosition(size * i, 0);
         spriteCache.push_back(upper);
 
-        sf::Sprite lower(spritesheet, rect);
+        sf::Sprite lower(*spritesheet, rect);
         lower.setPosition(size * i, (CONSTANTS::GRID_ROWS + 1) * size);
         spriteCache.push_back(lower);
     }
 
     for (int i = 1; i <= CONSTANTS::GRID_ROWS; ++i) {
-        sf::Sprite left(spritesheet, rect);
+        sf::Sprite left(*spritesheet, rect);
         left.setPosition(0, i * size);
         spriteCache.push_back(left);
 
-        sf::Sprite right(spritesheet, rect);
+        sf::Sprite right(*spritesheet, rect);
         right.setPosition((CONSTANTS::GRID_COLUMNS + 1) * size, i * size);
         spriteCache.push_back(right);
     }
 
     for (int i = 0; i <= CONSTANTS::NEXT_COLUMNS + 1; ++i) {
-        sf::Sprite upper(spritesheet, rect);
+        sf::Sprite upper(*spritesheet, rect);
         upper.setPosition(size * (i + CONSTANTS::GRID_COLUMNS + 3), 0);
         spriteCache.push_back(upper);
 
-        sf::Sprite lower(spritesheet, rect);
+        sf::Sprite lower(*spritesheet, rect);
         lower.setPosition(size * (i + CONSTANTS::GRID_COLUMNS + 3), (CONSTANTS::NEXT_ROWS + 1) * size);
         spriteCache.push_back(lower);
     }
 
     for (int i = 1; i <= CONSTANTS::NEXT_ROWS; ++i) {
-        sf::Sprite left(spritesheet, rect);
+        sf::Sprite left(*spritesheet, rect);
         left.setPosition((CONSTANTS::GRID_COLUMNS + 3) * size, i * size);
         spriteCache.push_back(left);
 
-        sf::Sprite right(spritesheet, rect);
+        sf::Sprite right(*spritesheet, rect);
         right.setPosition((CONSTANTS::GRID_COLUMNS + 4 + CONSTANTS::NEXT_COLUMNS) * size, i * size);
         spriteCache.push_back(right);
     }

@@ -10,7 +10,7 @@ public:
 
 private:
     static void initGridState();
-    static void render(const sf::Texture& spritesheet, const sf::Texture*, const std::vector<sf::Sprite>& staticSprites, const sf::Font*);
+    static void render(const sf::Texture* spritesheet, const sf::Texture*, const std::vector<sf::Sprite>& staticSprites, const sf::Font*);
     static void gameLoop();
 
     static sf::RenderWindow mainWindow;
@@ -26,7 +26,7 @@ private:
     } phase;
 
     // helpers / temporary
-    static void prepareGridEdges(const sf::Texture& spritesheet, std::vector<sf::Sprite>& spriteCache);
+    static void prepareGridEdges(const sf::Texture* spritesheet, std::vector<sf::Sprite>& spriteCache);
     static bool hasCollision();
     static void fallCurrentPiece();
     static void clearLines();
