@@ -55,7 +55,7 @@ void Core::initGridState() {
     //state.grid.set(6, 6, 5);
 }
 
-void Core::render(const sf::Texture& spritesheet, const std::vector<sf::Sprite>& staticSprites) {
+void Core::render(const sf::Texture& spritesheet, const std::vector<sf::Sprite>& staticSprites, const sf::Font* font) {
     mainWindow.clear(sf::Color(CONSTANTS::GFX::BACKGROUND_COLOUR));
 
     for (auto& sprite: staticSprites) {
@@ -96,6 +96,20 @@ void Core::render(const sf::Texture& spritesheet, const std::vector<sf::Sprite>&
             }
         }
     }
+
+    sf::Text scoreText;
+    configureGameText(scoreText, font);
+    scoreText.setString("SCORE: " + std::to_string(state.score));
+    sf::Text rowsText;
+    configureGameText(rowsText, font);
+    rowsText.setString("ROWS: " + std::to_string(state.completedRows));
+
+    int left = (CONSTANTS::GRID_COLUMNS + 2 + 1) * CONSTANTS::GFX::BLOCK_SIZE;
+    int top = (CONSTANTS::GRID_ROWS + 1) * CONSTANTS::GFX::BLOCK_SIZE - scoreText.getGlobalBounds().height - scoreText.getGlobalBounds().height;
+    scoreText.setPosition(left, top);
+    rowsText.setPosition(left, top + rowsText.getGlobalBounds().height);
+    mainWindow.draw(scoreText);
+    mainWindow.draw(rowsText);
 }
 
 void Core::gameLoop() {
@@ -108,10 +122,12 @@ void Core::gameLoop() {
     font->loadFromFile(CONSTANTS::FONT_FILE);
     sf::Text endGameText;
     endGameText.setString("GAME OVER");
-    configureGameText(endGameText, font.get());
     sf::Text pauseGameText;
     pauseGameText.setString("PAUSED");
+    configureGameText(endGameText, font.get());
     configureGameText(pauseGameText, font.get());
+    setGameTextPositionToGridCentre(endGameText);
+    setGameTextPositionToGridCentre(pauseGameText);
 
     sf::Texture spritesheet;
     spritesheet.loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
@@ -167,7 +183,7 @@ void Core::gameLoop() {
             fallCurrentPiece();
         }
 
-        render(spritesheet, staticSprites);
+        render(spritesheet, staticSprites, font.get());
 
         if (phase == GamePhase::Ended) {
             mainWindow.draw(endGameText);
