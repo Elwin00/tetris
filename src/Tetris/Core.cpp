@@ -27,9 +27,6 @@ void Core::initGridState() {
     unsigned int number_of_rows = CONSTANTS::GRID_ROWS;
     unsigned int number_of_columns = CONSTANTS::GRID_COLUMNS;
 
-    // #GRID removed because it is initialized automatically inside GameState class
-    //state.grid = std::vector<std::vector<Tile>>(CONSTANTS::GRID_COLUMNS, std::vector<Tile>(CONSTANTS::GRID_ROWS));
-
     // few landed blocks
     state.grid.set(7, 19, 3);
     state.grid.set(8, 19, 3);
