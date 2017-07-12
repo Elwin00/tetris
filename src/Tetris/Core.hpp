@@ -2,6 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "GameState.hpp"
 #include <vector>
+#include <memory>
 
 
 class Core final {
@@ -15,6 +16,9 @@ private:
 
     static sf::RenderWindow mainWindow;
     static GameState state;
+    static std::unique_ptr<sf::Texture> spritesheet;
+    static std::unique_ptr<sf::Texture> shadowTexture;
+    static std::unique_ptr<sf::Font> font;
 
     static enum class GamePhase {
         Initializing,

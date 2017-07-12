@@ -131,7 +131,6 @@ void Core::gameLoop() {
     const gameTime tickTime = 500; // milliseconds
     gameTime lastTickTime{0};
 
-    auto font = std::make_unique<sf::Font>();
     font->loadFromFile(CONSTANTS::FONT_FILE);
     sf::Text endGameText;
     endGameText.setString("GAME OVER");
@@ -142,13 +141,11 @@ void Core::gameLoop() {
     setGameTextPositionToGridCentre(endGameText);
     setGameTextPositionToGridCentre(pauseGameText);
 
-    auto spritesheet = std::make_unique<sf::Texture>();
     spritesheet->loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
 
     auto edgeTexture = std::make_unique<sf::Texture>();
     edgeTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_EDGE_FILE);
 
-    auto shadowTexture = std::make_unique<sf::Texture>();
     shadowTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_SHADOW_FILE);
 
     std::vector<sf::Sprite> staticSprites;
@@ -427,3 +424,6 @@ void Core::hardDrop() {
 sf::RenderWindow Core::mainWindow;
 GameState Core::state;
 Core::GamePhase Core::phase = GamePhase::Initializing;
+std::unique_ptr<sf::Texture> Core::spritesheet = std::make_unique<sf::Texture>();
+std::unique_ptr<sf::Texture> Core::shadowTexture = std::make_unique<sf::Texture>();
+std::unique_ptr<sf::Font> Core::font = std::make_unique<sf::Font>();
