@@ -11,7 +11,7 @@ public:
 
 private:
     static void initGridState();
-    static void render(const sf::Texture* spritesheet, const sf::Texture*, const std::vector<sf::Sprite>& staticSprites, const sf::Font*);
+    static void render(const std::vector<sf::Sprite>& staticSprites);
     static void gameLoop();
 
     static sf::RenderWindow mainWindow;

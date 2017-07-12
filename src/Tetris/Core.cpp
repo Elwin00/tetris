@@ -52,7 +52,7 @@ void Core::initGridState() {
     //state.grid.set(6, 6, 5);
 }
 
-void Core::render(const sf::Texture* spritesheet, const sf::Texture* shadowTexture, const std::vector<sf::Sprite>& staticSprites, const sf::Font* font) {
+void Core::render(const std::vector<sf::Sprite>& staticSprites) {
     mainWindow.clear(sf::Color(CONSTANTS::GFX::BACKGROUND_COLOUR));
 
     for (auto& sprite: staticSprites) {
@@ -95,10 +95,10 @@ void Core::render(const sf::Texture* spritesheet, const sf::Texture* shadowTextu
     }
 
     sf::Text scoreText;
-    configureGameText(scoreText, font);
+    configureGameText(scoreText, font.get());
     scoreText.setString("SCORE: " + std::to_string(state.score));
     sf::Text rowsText;
-    configureGameText(rowsText, font);
+    configureGameText(rowsText, font.get());
     rowsText.setString("ROWS: " + std::to_string(state.completedRows));
 
     int left = (CONSTANTS::GRID_COLUMNS + 2 + 1) * CONSTANTS::GFX::BLOCK_SIZE;
@@ -142,11 +142,10 @@ void Core::gameLoop() {
     setGameTextPositionToGridCentre(pauseGameText);
 
     spritesheet->loadFromFile(CONSTANTS::GFX::SPRITESHEET_BLOCKS_FILE);
+    shadowTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_SHADOW_FILE);
 
     auto edgeTexture = std::make_unique<sf::Texture>();
     edgeTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_EDGE_FILE);
-
-    shadowTexture->loadFromFile(CONSTANTS::GFX::SPRITESHEET_SHADOW_FILE);
 
     std::vector<sf::Sprite> staticSprites;
     prepareGridEdges(edgeTexture.get(), staticSprites);
@@ -196,7 +195,7 @@ void Core::gameLoop() {
             fallCurrentPiece();
         }
 
-        render(spritesheet.get(), shadowTexture.get(), staticSprites, font.get());
+        render(staticSprites);
 
         if (phase == GamePhase::Ended) {
             mainWindow.draw(endGameText);
